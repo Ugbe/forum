@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}My Notes{% endblock %}
+{% block content %}
+<h1 align="centre"> My Notes</h1>
+<ul class="list_group list-group-flush" id="notes">
+    {% for note in user.notes %}
+    <li class="list_group_item">{{ note.post }}
+        <button type="button" class="close" onclick="deleteNote({{ note.id }})">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </li>
+    {% endfor %}
+</ul>
+<br>
+<br>
+<form method="POST">
+    <textarea name="note" id="text" class="form-control"></textarea>
+    <br>
+    <div align="center">
+        <button type="submit" class="btn btn-lg btn-primary">Add Note</button>
+    </div>
+</form>
+{% endblock %}

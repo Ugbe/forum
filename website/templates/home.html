@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1>Welcome To Alphae!</h1>
+<br>
+<h3>Make your notes. Share with friends. Discuss. All in one place.</h3>
+<br>
+<br>
+<h6>The Student's choice. Everything you'll need, and more!</h6>
+<p>
+    With Alphae, you can connect with like-minded people, make notes,
+    share notes with friends, and create groups on the
+    forum with whom you can discuss topics that really interest you! You could also search
+    for notes posted on topics that interest you, written by
+    people who understand you!
+</p>
+
+<br>
+<br>
+
+<form action="/signup">
+    <div align="center">
+        <button type="submit" class="btn btn-primary btn-lg">Get Started!</button>
+    </div>
+</form>
+<br>
+<br>
+<form action="/login">
+    <div align="center">
+        <button type="submit" class="btn btn-primary btn-lg">Login</button>
+    </div>
+</form>
+{% endblock %}

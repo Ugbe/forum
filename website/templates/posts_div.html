@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Forum{% endblock %}
+{% block content %}
+<h3 align="centre">{% block header %}Town Hall{% endblock %}</h3>
+<div id="posts">
+    {% for post in posts %}
+        <div class="card border-dark">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <a href="/post/{{post.user.first_name}}">{{post.user.first_name}}</a>
+                <div>
+                    <span id="likes-count-{{post.id}}">
+                        {{post.likes|length}}</span>
+                    {% if user.id in post.likes|map(attribute="user_id")|list %}
+                    <i class="fas fa-thumbs-up" id="like-button-{{post.id}}" onclick="likePost({{post.id}})"></i>
+                    {% else %}
+                    <i class="far fa-thumbs-up" id="like-button-{{post.id}}" onclick="likePost({{post.id}})"></i>
+                    {% endif %}
+                    {% if user.id == post.user_id %}
+                <div class="btn-group">
+                    <button
+                            type="button"
+                            class="btn btn-sm btn-primary dropdown-toggle"
+                            data-toggle="dropdown"
+                    ></button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item" onclick="deletePost({{post.id}})">Delete</li>
+                    </ul>
+                </div>
+                {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-text">{{post.post}}</div>
+                <br>
+                <div class="collapse" id="comments-{{post.id}}">
+                    <div class="card">
+                        <div class="card-body" id="comments-expanded-{{post.id}}">
+                            {% for comment in post.comments %}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <a href="/post/{{comment.user.first_name}}">{{comment.user.first_name}}</a>: {{comment.text}}
+                                </div>
+                                <div>
+                                    <small class="text-muted">{{comment.date}}</small>
+                                    {% if user.id == comment.user.id%}
+                                    <div class="btn-group">
+                                        <button
+                                                type="button"
+                                                class="btn btn-sm btn-primary dropdown-toggle"
+                                                data-toggle="dropdown"></button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="/delete-comment/{{comment.id}}" class="dropdown-item">Delete</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <p class="card-text">
+                    {% if post.comments|length > 0 %}
+                    <a data-toggle="collapse" href="#comments-{{post.id}}" role="button">
+                        <small>{{post.comments|length}} <i class="fa-regular fa-comment"></i> </small>
+                    </a>
+                    {% else %}
+                    <small class="text-muted">No comments</small>
+                    {% endif %}
+                </p>
+                <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
+                    <input type="text" id="text" name="text" class="form-control" placeholder="Share your thoughts!">
+                    <button type="submit" class="btn btn-secondary btn-sm">Comment</button>
+                </form></div>
+            <div class="card-footer text-muted">{{post.date}}</div>
+            </div>
+        <br> {% endfor %}
+</div>
+{% block footer %}
+<div align="center">
+    <a href="/makepost">
+        <button type="button" class="btn btn-primary btn-lg">Make a post</button>
+    </a>
+</div>
+{% endblock %}
+{% endblock %}
